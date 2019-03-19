@@ -131,16 +131,16 @@ class JustCuts_Admin_UI extends JustCuts_Setup {
 			'name'            => esc_html__( 'Website URL', 'justcuts' ),
 			'id'              => 'website',
 			'type'            => 'text',
-			'escape_cb'       => 'esc_url',
-			'sanitization_cb' => 'esc_url',
+			'escape_cb'       => 'esc_html',
+			'sanitization_cb' => 'wp_kses_post',
 		) );
 
 		$cmb->add_field( array(
 			'name'            => esc_html__( 'Contact Form URL', 'justcuts' ),
-			'id'              => 'website',
+			'id'              => 'contact_form',
 			'type'            => 'text',
-			'escape_cb'       => 'esc_url',
-			'sanitization_cb' => 'esc_url',
+			'escape_cb'       => 'esc_html',
+			'sanitization_cb' => 'wp_kses_post',
 		) );
 
 		$cmb->add_field( array(
