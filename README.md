@@ -1,2 +1,5 @@
-# justcuts
-Hair dresser finding thingamabob
+# Just Cuts
+
+Hair dresser finding thingamabob.
+
+WordPress Theme.
