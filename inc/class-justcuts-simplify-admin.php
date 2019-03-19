@@ -15,7 +15,7 @@ class JustCuts_Simplify_Admin {
 		add_action( 'admin_menu',                 array( $this, 'remove_menus' ) );
 		add_action( 'wp_before_admin_bar_render', array( $this, 'remove_admin_bar_links' ) );
 		add_action( 'admin_menu',                 array( $this, 'remove_meta_boxes' ) );
-		add_action( 'admin_head',                 array( $this, 'hide_help' ) );
+		add_action( 'admin_head',                 array( $this, 'hide_stuff' ) );
 		add_filter( 'screen_options_show_screen', '__return_false' );
 	}
 
@@ -93,10 +93,23 @@ class JustCuts_Simplify_Admin {
 	}
 
 	/**
-	 * Hide Help tab.
+	 * Hide stuff.
 	 */
-	public function hide_help() {
-		echo '<style type="text/css">#contextual-help-link-wrap { display: none !important; }</style>';
+	public function hide_stuff() {
+		echo '<style type="text/css">
+			#contextual-help-link-wrap,
+			body.taxonomy-country #col-left,
+			body.taxonomy-city #col-left,
+			body.taxonomy-price #col-left {
+				display: none;
+			}
+
+			body.taxonomy-country #col-right,
+			body.taxonomy-city #col-right,
+			body.taxonomy-price #col-right {
+				width: 100%;
+			}
+		</style>';
 	}
 
 }

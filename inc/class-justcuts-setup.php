@@ -75,24 +75,27 @@ class JustCuts_Setup {
 
 		// Country taxonomy
 		$args['labels'] = array(
-			'name'                  => _x( 'Country', 'taxonomy general name', 'justcuts' ),
-			'singular_name'         => _x( 'Country', 'taxonomy singular name', 'justcuts' ),
+			'name'          => _x( 'Countries', 'taxonomy general name', 'justcuts' ),
+			'singular_name' => _x( 'Country', 'taxonomy singular name', 'justcuts' ),
+			'edit_item'     => __( 'Edit Country', 'justcuts' ),
 		);
 		$args['rewrite'] = array( 'slug' => 'country' );
 		register_taxonomy( 'country', 'business', $args );
 
 		// City taxonomy
 		$args['labels'] = array(
-			'name'          => _x( 'City', 'taxonomy general name', 'justcuts' ),
+			'name'          => _x( 'Cities', 'taxonomy general name', 'justcuts' ),
 			'singular_name' => _x( 'City', 'taxonomy singular name', 'justcuts' ),
+			'edit_item'     => __( 'Edit City', 'justcuts' ),
 		);
 		$args['rewrite'] = array( 'slug' => 'city' );
 		register_taxonomy( 'city', 'business', $args );
 
 		// Price taxonomy
 		$args['labels'] = array(
-			'name'          => _x( 'Price', 'taxonomy general name', 'justcuts' ),
+			'name'          => _x( 'Prices', 'taxonomy general name', 'justcuts' ),
 			'singular_name' => _x( 'Price', 'taxonomy singular name', 'justcuts' ),
+			'edit_item'     => __( 'Edit Price', 'justcuts' ),
 		);
 		$args['rewrite'] = array( 'slug' => 'price' );
 		register_taxonomy( 'price', 'business', $args );
