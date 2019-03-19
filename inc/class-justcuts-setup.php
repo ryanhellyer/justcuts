@@ -85,11 +85,17 @@ class JustCuts_Setup {
 		$args['labels'] = array(
 			'name'          => _x( 'City', 'taxonomy general name', 'justcuts' ),
 			'singular_name' => _x( 'City', 'taxonomy singular name', 'justcuts' ),
-			'separate_items_with_commas' => '',
-			'choose_from_most_used' => _x( 'Choose from the most common cities', 'justcuts' ),
 		);
 		$args['rewrite'] = array( 'slug' => 'city' );
 		register_taxonomy( 'city', 'business', $args );
+
+		// Price taxonomy
+		$args['labels'] = array(
+			'name'          => _x( 'Price', 'taxonomy general name', 'justcuts' ),
+			'singular_name' => _x( 'Price', 'taxonomy singular name', 'justcuts' ),
+		);
+		$args['rewrite'] = array( 'slug' => 'price' );
+		register_taxonomy( 'price', 'business', $args );
 
 	}
 

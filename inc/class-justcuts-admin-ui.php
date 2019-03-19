@@ -15,13 +15,15 @@ class JustCuts_Admin_UI extends JustCuts_Setup {
 		add_action( 'cmb2_admin_init', array( $this, 'location_metaboxes' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'image_metaboxes' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'contact_metaboxes' ) );
-		add_action( 'cmb2_admin_init', array( $this, 'price_metaboxes' ) );
 
 		add_action( 'add_meta_boxes', array( $this, 'add_country_metabox' ) );
 		add_action( 'save_post',      array( $this, 'country_save' ), 10, 2 );
 
 		add_action( 'add_meta_boxes', array( $this, 'add_city_metabox' ) );
 		add_action( 'save_post',      array( $this, 'city_save' ), 10, 2 );
+
+		add_action( 'add_meta_boxes', array( $this, 'add_price_metabox' ) );
+		add_action( 'save_post',      array( $this, 'price_save' ), 10, 2 );
 	}
 
 	/**
@@ -152,32 +154,6 @@ class JustCuts_Admin_UI extends JustCuts_Setup {
 	}
 
 	/**
-	 * Add price metaboxes.
-	 */
-	public function price_metaboxes() {
-		$slug = 'price';
-
-		$cmb = new_cmb2_box( array(
-			'id'           => $slug,
-			'title'        => esc_html__( 'Price', 'justcuts' ),
-			'object_types' => array( 'business', ),
-		) );
-
-		$cmb->add_field( array(
-			'name'             => esc_html__( 'Price', 'justcuts' ),
-			'id'               => 'price',
-			'type'             => 'text',
-			'attributes'       => array(
-				'type'    => 'number',
-				'pattern' => '\d*',
-			),
-			'escape_cb'       => 'absint',
-			'sanitization_cb' => 'absint',
-		) );
-
-	}
-
-	/**
 	 * Add country metabox.
 	 */
 	public function add_country_metabox() {
@@ -278,13 +254,6 @@ class JustCuts_Admin_UI extends JustCuts_Setup {
 
 	}
 
-
-
-
-
-
-
-
 	/**
 	 * Add city metabox.
 	 */
@@ -351,6 +320,110 @@ class JustCuts_Admin_UI extends JustCuts_Setup {
 			$_city = wp_kses_post( $_POST['_city'] );
 
 			wp_set_post_terms( $post_id, $_city, 'city', false );
+
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * Add price metabox.
+	 */
+	public function add_price_metabox() {
+
+		add_meta_box(
+			'price', // ID
+			__( 'Price', 'justcuts' ), // Title
+			array(
+				$this,
+				'price_metabox', // Callback to method to display HTML
+			),
+			'business', // Post type
+			'side', // Context, choose between 'normal', 'advanced', or 'side'
+			'low'  // Position, choose between 'high', 'core', 'default' or 'low'
+		);
+
+	}
+
+	/**
+	 * Output the price meta box.
+	 */
+	public function price_metabox() {
+
+		$term = $this->get_price_name( get_the_ID() );
+		?>
+
+		<p>
+			<label for="_price"><strong><?php _e( 'Select the price rating', 'justcuts' ); ?></strong></label>
+			<br />
+
+			<input type="radio" id="star1" name="_price" value="1" <?php checked( 1, $term ); ?>>
+			<label for="star1">★</label>
+
+			<br />
+
+			<input type="radio" id="star2" name="_price" value="2" <?php checked( 2, $term ); ?>>
+			<label for="star2">★★</label>
+
+			<br />
+
+			<input type="radio" id="star3" name="_price" value="3" <?php checked( 3, $term ); ?>>
+			<label for="star3">★★★</label>
+
+			<br />
+
+			<input type="radio" id="star4" name="_price" value="4" <?php checked( 4, $term ); ?>>
+			<label for="star4">★★★★</label>
+			<br />
+
+			<input type="radio" id="star5" name="_price" value="5" <?php checked( 5, $term ); ?>>
+			<label for="star5">★★★★★</label>
+
+			<input type="hidden" id="price-nonce" name="price-nonce" value="<?php echo esc_attr( wp_create_nonce( __FILE__ ) ); ?>">
+		</p><?php
+	}
+
+	private function get_price_name( $post_id ) {
+
+		$terms = wp_get_post_terms( $post_id, 'price', array() );
+		$term = '';
+		if ( isset( $terms[0]->name ) ) {
+			$term = $terms[0]->name;
+		}
+
+		return $term;
+	}
+
+	/**
+	 * Save opening times meta box data.
+	 *
+	 * @param  int     $post_id  The post ID
+	 * @param  object  $post     The post object
+	 */
+	public function price_save( $post_id, $post ) {
+
+		// Only save if correct post data sent
+		if ( isset( $_POST['_price'] ) ) {
+
+			// Do nonce security check
+			if ( ! wp_verify_nonce( $_POST['price-nonce'], __FILE__ ) ) {
+				return;
+			}
+
+			// Sanitize and store the data
+			$_price = wp_kses_post( $_POST['_price'] );
+
+			wp_set_post_terms( $post_id, $_price, 'price', false );
 
 		}
 
