@@ -4,7 +4,6 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
 <link rel="profile" href="http://gmpg.org/xfn/11" />
-<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -83,24 +82,12 @@ if ( have_posts() ) {
 					the_content( esc_html__( 'Continue reading <span class="meta-nav">&rarr;</span>', 'justcuts' ) );
 					wp_link_pages( array( 'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'justcuts' ), 'after' => '</div>' ) );
 				} else {
-
-					// Use the built in thumbnail system, otherwise attempt to display the latest attachment
-					if ( has_post_thumbnail() ) {
-						the_post_thumbnail( 'hellish-simplicity-excerpt-thumb' );
-					} elseif ( function_exists( 'get_the_image' ) ) {
-						get_the_image( array( 'size' => 'thumbnail' ) );
-					}
 					the_excerpt();
 				}
 				?>
 			</div><!-- .entry-content -->
 
 		</article><!-- #post-<?php the_ID(); ?> --><?php
-
-		// If comments are open or we have at least one comment, load up the comment template
-		if ( comments_open() || '0' != get_comments_number() ) {
-			comments_template( '', true );
-		}
 
 	}
 
@@ -110,14 +97,8 @@ else {
 }
 ?>
 
-	</div><!-- #site-content --><?php
+	</div><!-- #site-content -->
 
-	// Show sidebar if not on full width template
-	if ( 'full-width.php' != basename( get_page_template() ) ) {
-		get_template_part( 'template-parts/sidebar' );
-	}
-
-	?>
 </div><!-- #content-area -->
 
 
