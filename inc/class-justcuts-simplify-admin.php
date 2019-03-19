@@ -15,6 +15,8 @@ class JustCuts_Simplify_Admin {
 		add_action( 'admin_menu',                 array( $this, 'remove_menus' ) );
 		add_action( 'wp_before_admin_bar_render', array( $this, 'remove_admin_bar_links' ) );
 		add_action( 'admin_menu',                 array( $this, 'remove_meta_boxes' ) );
+		add_action( 'admin_head',                 array( $this, 'hide_help' ) );
+		add_filter( 'screen_options_show_screen', '__return_false' );
 	}
 
 	/**
@@ -88,6 +90,13 @@ class JustCuts_Simplify_Admin {
 		if ( preg_match( '#wp-admin/?(index.php)?$#', esc_url( $_SERVER['REQUEST_URI'] ) ) )
 			wp_redirect( admin_url( 'edit.php?post_type=page' ) );
 	
+	}
+
+	/**
+	 * Hide Help tab.
+	 */
+	public function hide_help() {
+		echo '<style type="text/css">#contextual-help-link-wrap { display: none !important; }</style>';
 	}
 
 }
